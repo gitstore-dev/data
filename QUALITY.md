@@ -14,7 +14,45 @@ Run the full local checks with:
 ```sh
 .venv/bin/python -m unittest discover -s tests
 .venv/bin/python tools/taxonomy.py validate
+.venv/bin/python tools/datasets.py validate
+.venv/bin/python tools/check_parser.py --gitstore /path/to/GitStore
 ```
+
+## Dataset selection validation (0.1.0)
+
+The starter allowlist contains exactly 266 categories: all 3 Gift Cards, all
+129 Luggage & Bags, and all 134 Media nodes. Review includes each root and every
+selected ID/title from the pinned source; see [datasets/starter.ids](datasets/starter.ids).
+Complete verticals keep the canonical Markdown's ancestor and direct-child
+navigation valid without rewriting any body. Full membership is exactly the
+64,292 source IDs and 26 roots. Both selections are ordered by ancestor depth,
+then ASCII category ID. Tests exercise missing ancestors, cycles, broken local
+links, duplicate/unknown IDs, lock drift, deterministic exports, existing-output
+protection and cleanup after a changed-input export fails.
+
+The production parser and vendored schema are pinned to GitStore commit
+`e95ac03183cb3c4e78bdfbe4bb3f431bf6f4e961` (repository namespace inference).
+The maintainer parser command checks all 64,292 canonical files against those
+immutable Git objects, including unchanged Markdown bodies and parent names.
+Both selections are subsets of that exact corpus, with per-file checksums in
+the exported inventory. This provides parser/schema evidence without claiming
+live-server compatibility or controller readiness.
+
+Release review should compare two fresh exports of each selection, including
+`dataset.json` and both MIT notices, and confirm no canonical category,
+upstream or editorial file changed. Export metadata has no wall-clock time,
+working-directory path or current Git HEAD dependency. Dataset version and
+upstream taxonomy version remain separate. These checks do not qualify
+full-taxonomy ingestion performance.
+
+Implementation validation on 2026-11-25 passed all 16 unit tests, complete
+canonical schema/editorial/hierarchy checks, and the pinned production parser
+for all 64,292 manifests. Two fresh exports per selection matched every byte:
+269 starter files and 64,295 full files (categories, metadata and two licenses).
+Both inventories were independently checked for parent-first ordering,
+canonical file checksums and complete local navigation. No canonical category,
+source, editorial, schema or license file changed; LFS attributes remain intact
+and there are no tracked LFS objects. No live ingestion benchmark was run.
 
 The accompanying GitStore tests exercise concurrent API instances using the same
 namespace-free root/child tree in two stores, correct parent names and ancestor

@@ -1,0 +1,19 @@
+{
+  "format_version": 1,
+  "dataset_version": "0.1.0",
+  "default_selection": "starter",
+  "selections": {
+    "starter": {
+      "ids_file": "datasets/starter.ids",
+      "resources": 266,
+      "roots": 3,
+      "rationale": "Complete Gift Cards (3), Luggage & Bags (129), and Media (134) verticals offer gift, bag, book and recorded-content classifications in a small retail demo. Complete verticals preserve canonical ancestor and direct-child navigation without rewriting descriptions. Membership is explicit, never sampled."
+    },
+    "full": {
+      "all_source_ids": true,
+      "resources": 64292,
+      "roots": 26,
+      "rationale": "Every English category in the pinned Shopify 2026-11 taxonomy; explicit opt-in for reference catalogues."
+    }
+  }
+}

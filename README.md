@@ -17,16 +17,78 @@ API replica before pushing this data. Older versions reject omitted
 namespaces; do not push until the deployment is compatible. GraphQL clients
 still provide namespaces explicitly.
 
-Create the target store namespace and repository first, then push an
-appropriate branch of this repository to its GitStore Git URL using your
-normal authenticated Git workflow. The target repository supplies the
-effective namespace; the source files stay identical across stores.
-There is no configured remote in this initial local repository.
+Create the target store namespace and repository first. Export a selection
+as described below, then copy its `categories/` files and both license notices
+to the target repository with your normal authenticated Git workflow. The
+target repository supplies the effective namespace; the source files stay
+identical across stores.
+This repository's authoring inputs and tools are not seed resources.
 
 The full taxonomy is a large seed. Validate ingestion limits and operational
 capacity before loading all categories; successful file validation is not a
 full-taxonomy deployed ingestion benchmark. Controller-resolved ancestry is
 eventually consistent after admission.
+
+## Starter and full selections
+
+**Starter is the convenience default. Full requires explicit opt-in.** GitStore
+dataset version **0.1.0** identifies these selections; Shopify taxonomy version
+**2026-11** identifies the upstream classification. These versions evolve
+independently. No registry release is published by the export command.
+
+| Selection | Categories | Root verticals | Manifest bytes |
+| --- | ---: | ---: | ---: |
+| `starter` (default) | 266 | 3 | 632,868 |
+| `full` (explicit) | 64,292 | 26 | 177,054,512 |
+
+The starter includes complete **Gift Cards** (3), **Luggage & Bags** (129), and
+**Media** (134) verticals for a small retail demo covering gifts, bags, books
+and recorded content. Media is a taxonomy label here: these are category
+resources, with no media files or references. The exact 266 Shopify IDs are
+committed in [datasets/starter.ids](datasets/starter.ids); no random sampling
+or live upstream lookup occurs. Complete verticals retain both ancestor links
+and every direct-child link without changing canonical descriptions. It is a
+convenience selection, not a representative sample of all retail sectors.
+
+After installing the Python requirements below, export from the repository root:
+
+```sh
+# Default: the reviewed starter selection.
+.venv/bin/python tools/datasets.py export --output dist/starter
+# Explicit opt-in: the complete taxonomy.
+.venv/bin/python tools/datasets.py export --selection full --output dist/full
+```
+
+The output directory must not exist. Exports inside this checkout must be
+under ignored `dist/`. Export validates the entire canonical catalogue
+and checks the committed selection lock before writing. Each export contains
+only selected `categories/` Markdown, `LICENSE`, `LICENSE-SHOPIFY`, and
+`dataset.json`. It copies manifest bytes exactly; namespace keys, system fields,
+media slots, File resources and binaries are absent. Source/editorial JSONL,
+schemas, authoring tools, Git history and LFS configuration are not copied.
+
+`dataset.json` is the deterministic handoff to the future OCI bundle builder,
+not an OCI format contract. Its ordered `inventory` records each Shopify ID,
+stable name, exact title, parent name, path, byte length and SHA-256. Order is
+ancestor depth first, then ASCII category ID, so parents precede children.
+Metadata includes counts per vertical, root count, total manifest bytes,
+membership/inventory checksums, pinned upstream asset and source checksums,
+license checksums, required namespace-inference support and schema/parser
+revision. `inventory_sha256` hashes the UTF-8 inventory JSON serialized with
+sorted keys, two-space indentation, unescaped Unicode and a final newline;
+`ids_sha256` hashes ordered IDs, one per line with a final newline. There are
+no timestamps or machine-specific paths in export metadata.
+
+The schema and parser pin are compatibility evidence, not proof that a running
+server supports this data. Check the target deployment before importing. A
+functional import does not qualify production capacity. In particular, the full
+selection is about 169 MiB of Markdown; do not assume one initial push fits
+server admission limits. Export ordering supports a future importer making
+separate, bounded pushes; export itself does not perform ingestion.
+
+Datasets and any packaging tools remain separate from GitStore API,
+controller-manager and Git-service binaries/images. OCI packaging/publication
+and `gs seed` execution are separate work items.
 
 ## Content and provenance
 
@@ -80,9 +142,49 @@ an interrupted batch can be rerun without losing prior records. Re-running rende
 Intentional upstream upgrades require reviewing IDs, removals, parent changes,
 prose and the source lock together.
 
-The vendored category schema reflects repository-scoped namespace inference.
-The accompanying GitStore change also validates all generated files through
-its production parser.
+Validate selections and their reviewed lock after any intentional source,
+editorial or membership change:
+
+```sh
+.venv/bin/python -m unittest discover -s tests
+.venv/bin/python tools/datasets.py validate
+# Maintainer check: use the locked production parser from committed Git objects.
+.venv/bin/python tools/check_parser.py --gitstore /path/to/GitStore
+```
+
+Pull requests and pushes to `main` run one CI verification job: unit tests,
+canonical schema/hierarchy/editorial/link validation, and selection-lock checks.
+It uses committed inputs only, with no upstream downloads, full exports,
+GitStore builds, live services or publication. The pinned production-parser
+check remains a maintainer check.
+
+The parser check needs Git, Go (including the pinned GitStore module's toolchain)
+and its Go modules available. It archives the revision in
+[datasets/compatibility.json](datasets/compatibility.json) into a temporary
+directory and compiles a small validation harness there. It does not modify
+the supplied GitStore clone or use its uncommitted code. Every canonical
+manifest passes through the repository-scoped production parser; names,
+titles, parent names and description bytes are compared, and the vendored
+schema must exactly match that revision. This does not exercise live admission,
+authorization, controller readiness or ingestion performance. Neither this Go
+harness nor its dependencies are part of an export.
+
+For an intentional selection change, edit `datasets/definitions.json` and the
+explicit starter allowlist, review membership and rationale, update the dataset
+version as appropriate, then refresh the lock explicitly:
+
+```sh
+.venv/bin/python tools/datasets.py lock
+.venv/bin/python tools/datasets.py validate
+```
+
+Review `datasets/selections.lock.json` with the input changes. Validation never
+refreshes it silently. It binds source/editorial checksums and both selection
+inventories; missing ancestors, cycles, broken navigation, count drift and
+manifest drift fail validation. Intentional upstream upgrades also require
+reviewing compatibility and re-running the pinned parser check. For repeated
+exports, choose two fresh output directories; all file bytes, including
+`dataset.json`, must match.
 
 Review coverage, acceptance limits and sample links are recorded in [QUALITY.md](QUALITY.md).
 
