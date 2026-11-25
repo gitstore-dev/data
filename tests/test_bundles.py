@@ -89,6 +89,24 @@ class BundleTests(unittest.TestCase):
         self.assertEqual(self.vectors["file_count"], len(contents(output)))
         self.assertEqual(self.vectors["expanded_bytes"], sum(len(c) for c in contents(output).values()))
 
+    def test_fixture_is_independent_of_production_version_bumps(self):
+        source = self.root / "source"
+        paths = ["upstream/categories.en/gc.jsonl", "datasets/selections.lock.json",
+                 *datasets.LICENSES, *[f"categories/gc/{name}.md" for name in ("gc", "gc-1", "gc-2")]]
+        for relative in paths:
+            target = source / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(datasets.ROOT / relative, target)
+        lock_path = source / "datasets/selections.lock.json"
+        lock = json.loads(lock_path.read_bytes())
+        lock["dataset_version"] = "0.2.0"
+        lock_path.write_bytes(datasets.encoded(lock))
+        with patch.object(datasets, "ROOT", source):
+            make_fixture(self.root / "next-version")
+        self.assertEqual((FIXTURE / "vectors.json").read_bytes(),
+                         (self.root / "next-version/vectors.json").read_bytes())
+        self.assertEqual(self.archive.read_bytes(), (self.root / "next-version/package/seed.tar.gz").read_bytes())
+
     def test_target_preflight_happens_before_extraction(self):
         for caps, apis in [([], [bundles.API]), ([bundles.CAPABILITY], []), (None, [bundles.API])]:
             output = self.root / "rejected"

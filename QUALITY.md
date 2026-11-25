@@ -18,6 +18,22 @@ Run the full local checks with:
 .venv/bin/python tools/check_parser.py --gitstore /path/to/GitStore
 ```
 
+## Release Please automation verification
+
+- All 60 fast Python tests pass, including independent fixture regeneration after
+  a production version bump, version-field consistency, and rejection of tagged
+  releases with bootstrap or mismatched automation versions.
+- The pinned Release Please 17.6.0 engine was exercised offline with the committed
+  config: initial `0.1.0`, subsequent feature `0.2.0`, both JSON version updates
+  without selection-content changes, and draft releases with forced tag creation.
+- Both release workflows pass `actionlint`. Default PR verification remains
+  Python-only. No generated archives, Node modules, or executables are committed.
+- Full canonical and starter/full lock validation passes; source, editorial,
+  canonical manifests, selection locks, and existing fixture vectors are unchanged.
+- Automatic GitHub App operation, OIDC signing, and GHCR writes await configured
+  repository credentials/environment controls and the first release after merge;
+  the offline preview does not establish those live permissions.
+
 ## Dataset selection validation (0.1.0)
 
 The starter allowlist contains exactly 266 categories: all 3 Gift Cards, all
@@ -96,6 +112,32 @@ layouts without a registry. All 36 unit tests passed. The ORAS client was a
 temporary maintainer tool, not a repository, CI or service dependency. Canonical
 inputs, schema/selection locks and the single CI workflow remained unchanged.
 No registry publication or live GitStore ingestion was performed.
+
+## Publication checks
+
+Release publication is separate from normal read-only verification CI. The
+[release guide](docs/releases.md) records producer permissions, trust policy,
+version retention, retry/recovery and public/private/offline consumption.
+
+Validation on 2026-11-25 passed 58 fast tests, workflow `actionlint`, Go helper
+build/package checks and `go vet`. The release-time worktree builder was also
+exercised with the merged canonical source
+`c2e2ae39624da534bc5d3706d40486f1deb608a2`: it validated/built 266 starter and
+64,292 full resources and generated the release inventory, manifests, matching
+archive assets and checksums. No generated files were added to Git or LFS.
+
+A disposable `registry:3.0.0` rehearsal used the native ORAS SDK helper for real
+OCI uploads/readback, with the production GitHub REST adapter against a loopback
+Releases protocol stub. It covered pending-draft lookup, accepted uploads with
+lost responses, byte-preserving retries, completed signed-asset reuse, exact
+offline/OCI equivalence, registry conflicts, 401 denial and checksum tampering.
+The owned registry containers were removed after each rehearsal.
+
+The rehearsal's proof was explicitly synthetic. Real GitHub OIDC signing, GHCR
+organization access, package visibility and environment controls remain checks
+for the first approved dispatch after merge; no live release/tag/artifact was
+published by implementation validation. Core-service artifacts/startup and the
+existing lightweight verification workflow remain unchanged.
 
 ## Editorial sample review
 

@@ -29,6 +29,26 @@ class SelectionTests(unittest.TestCase):
             (self.root / license).write_text("License notice\n")
         self.definition = {"ids_file": "ids", "resources": 2, "roots": 1}
 
+    def test_release_version_consistency_and_bootstrap(self):
+        def write(version, dataset, lock=None, manifest=None):
+            (self.root / "datasets").mkdir(exist_ok=True)
+            for name, value in {
+                ".release-please-manifest.json": {".": manifest or version},
+                "release-please-config.json": {"packages": {".": {"initial-version": "0.1.0"}}},
+                "datasets/definitions.json": {"dataset_version": dataset},
+                "datasets/selections.lock.json": {"dataset_version": lock or dataset},
+            }.items():
+                (self.root / name).write_text(json.dumps(value))
+            (self.root / "version.txt").write_text(version + "\n")
+        for version, dataset in [("0.0.0", "0.1.0"), ("0.1.0", "0.1.0"), ("0.2.0", "0.2.0")]:
+            write(version, dataset)
+            datasets.verify_release_versions()
+        for args in [("0.0.0", "0.2.0"), ("0.2.0", "0.1.0"),
+                     ("0.2.0", "0.2.0", "0.1.0"), ("0.2.0", "0.2.0", None, "0.1.0")]:
+            write(*args)
+            with self.subTest(args=args), self.assertRaises(ValueError):
+                datasets.verify_release_versions()
+
     def test_parent_first_order_is_independent_of_source_and_allowlist_order(self):
         expected = ["x", "x-1"]
         self.assertEqual(expected, datasets.selected_ids(self.definition, self.categories))
