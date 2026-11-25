@@ -87,8 +87,8 @@ server admission limits. Export ordering supports a future importer making
 separate, bounded pushes; export itself does not perform ingestion.
 
 Datasets and any packaging tools remain separate from GitStore API,
-controller-manager and Git-service binaries/images. OCI packaging/publication
-and `gs seed` execution are separate work items.
+controller-manager and Git-service binaries/images. Packaging/publication belong
+to this data repository; `gs seed` execution belongs to the CLI.
 
 ## Data-only OCI bundles
 
@@ -126,7 +126,7 @@ fresh directory:
 Layout verification can instead pin `--oci-digest sha256:<manifest-checksum>`.
 Digest verification provides integrity, not publisher authentication. Neither
 source URLs nor a self-consistent layout establish trust. Publication and
-signing/provenance policy belong to the release workflow in data #3.
+signing/provenance policy are defined in the [release guide](docs/releases.md).
 
 Importers must check the target's required capabilities and resource APIs
 before writes. For a caller that has independently established target support,
@@ -139,8 +139,11 @@ fail verification before extraction. See the contract for bounds and fixtures.
 
 These maintainer commands use the existing Python requirements and standard
 library. Packages contain no tools, runtime, third-party executables or media.
-OCI publication and resumable `gs seed` remain separate work; core GitStore
-binaries/images receive no data or dependencies.
+The [release workflow](docs/releases.md) builds at release time and publishes
+versioned GHCR artifacts plus matching GitHub Release archives/checksums and
+producer provenance. It runs only by an explicit dispatch for a reviewed tag on
+`main`; tests/builds do not publish. Resumable `gs seed` remains CLI work. Core
+GitStore binaries/images receive no data, third-party binaries or dependencies.
 
 ## Content and provenance
 

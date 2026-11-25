@@ -43,7 +43,7 @@ checksums.json                   # archive and OCI-manifest descriptors, separat
 
 Publication must copy these manifest/blob bytes unchanged, rather than invoke a
 new registry push recipe that rewrites annotations or config. Registry upload,
-release assets and publisher attestations belong to data #3. OCI tooling is
+release assets and publisher attestations use the [release workflow](releases.md). OCI tooling is
 optional for maintainers; no ORAS, Git or Python executable is in the payload.
 
 ## Payload and bundle manifest

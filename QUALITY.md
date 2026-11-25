@@ -97,6 +97,32 @@ temporary maintainer tool, not a repository, CI or service dependency. Canonical
 inputs, schema/selection locks and the single CI workflow remained unchanged.
 No registry publication or live GitStore ingestion was performed.
 
+## Publication checks
+
+Release publication is separate from normal read-only verification CI. The
+[release guide](docs/releases.md) records producer permissions, trust policy,
+version retention, retry/recovery and public/private/offline consumption.
+
+Validation on 2026-11-25 passed 58 fast tests, workflow `actionlint`, Go helper
+build/package checks and `go vet`. The release-time worktree builder was also
+exercised with the merged canonical source
+`c2e2ae39624da534bc5d3706d40486f1deb608a2`: it validated/built 266 starter and
+64,292 full resources and generated the release inventory, manifests, matching
+archive assets and checksums. No generated files were added to Git or LFS.
+
+A disposable `registry:3.0.0` rehearsal used the native ORAS SDK helper for real
+OCI uploads/readback, with the production GitHub REST adapter against a loopback
+Releases protocol stub. It covered pending-draft lookup, accepted uploads with
+lost responses, byte-preserving retries, completed signed-asset reuse, exact
+offline/OCI equivalence, registry conflicts, 401 denial and checksum tampering.
+The owned registry containers were removed after each rehearsal.
+
+The rehearsal's proof was explicitly synthetic. Real GitHub OIDC signing, GHCR
+organization access, package visibility and environment controls remain checks
+for the first approved dispatch after merge; no live release/tag/artifact was
+published by implementation validation. Core-service artifacts/startup and the
+existing lightweight verification workflow remain unchanged.
+
 ## Editorial sample review
 
 Reviewed roots, an intermediate node where available, and a terminal node
