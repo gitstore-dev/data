@@ -18,6 +18,22 @@ Run the full local checks with:
 .venv/bin/python tools/check_parser.py --gitstore /path/to/GitStore
 ```
 
+## Release Please automation verification
+
+- All 60 fast Python tests pass, including independent fixture regeneration after
+  a production version bump, version-field consistency, and rejection of tagged
+  releases with bootstrap or mismatched automation versions.
+- The pinned Release Please 17.6.0 engine was exercised offline with the committed
+  config: initial `0.1.0`, subsequent feature `0.2.0`, both JSON version updates
+  without selection-content changes, and draft releases with forced tag creation.
+- Both release workflows pass `actionlint`. Default PR verification remains
+  Python-only. No generated archives, Node modules, or executables are committed.
+- Full canonical and starter/full lock validation passes; source, editorial,
+  canonical manifests, selection locks, and existing fixture vectors are unchanged.
+- Automatic GitHub App operation, OIDC signing, and GHCR writes await configured
+  repository credentials/environment controls and the first release after merge;
+  the offline preview does not establish those live permissions.
+
 ## Dataset selection validation (0.1.0)
 
 The starter allowlist contains exactly 266 categories: all 3 Gift Cards, all

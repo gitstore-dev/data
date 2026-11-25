@@ -35,8 +35,9 @@ def make_fixture(output):
     metadata = datasets.export_metadata(selection, current, records)
     inputs = {item["path"]: datasets.ROOT / item["path"] for item in [*records, *current["licenses"]]}
     output.mkdir(parents=True, exist_ok=False)
+    # This historical fixture's source/lock pair stays fixed across dataset version bumps.
     identities = bundles.write_package(output / "package", metadata, inputs, definition["source_commit"],
-                                       datasets.sha256((datasets.ROOT / "datasets/selections.lock.json").read_bytes()))
+                                       definition["selection_lock_sha256"])
     bundle = bundles.verify_package(output / "package")
     vectors = {"package_format": bundles.FORMAT, "identities": identities,
                "file_count": bundle["file_count"], "expanded_bytes": bundle["expanded_bytes"],

@@ -3,5 +3,6 @@
   "ids": ["gc", "gc-1", "gc-2"],
   "rationale": "Conformance fixture only: the complete three-category Gift Cards vertical.",
   "selection": "fixture-gift-cards",
-  "source_commit": "04df0a756d4ec7d2ad359ff9cc526ef26d3c018e"
+  "source_commit": "04df0a756d4ec7d2ad359ff9cc526ef26d3c018e",
+  "selection_lock_sha256": "2d88f1455bb457290d1f080534afd4691ebc3dcb8fa2ab120f69ec4ee538cd08"
 }

@@ -229,17 +229,27 @@ class ProducerPolicyTests(unittest.TestCase):
     def test_tag_version_and_main_ancestry_are_required(self):
         lock = datasets.read_json("datasets/selections.lock.json")
         definitions = datasets.read_json("datasets/definitions.json")
+        automation_version = lock["dataset_version"]
         def read(*args):
             if args[0] == "rev-parse":
                 return b"1111111111111111111111111111111111111111\n"
             path = args[1].split(":", 1)[1]
-            value = {"datasets/definitions.json": definitions, "datasets/selections.lock.json": lock,
+            if path == "version.txt":
+                return automation_version.encode()
+            value = {".release-please-manifest.json": {".": automation_version},
+                     "datasets/definitions.json": definitions, "datasets/selections.lock.json": lock,
                      "source.lock.json": lock["source"]}[path]
             return datasets.encoded(value)
         with patch.object(releases, "git", side_effect=read), patch.object(releases.subprocess, "run") as run:
             spec = releases.source_spec("v" + definitions["dataset_version"])
             self.assertEqual(definitions["dataset_version"], spec["version"])
             self.assertIn("--is-ancestor", run.call_args.args[0])
+            for invalid in ("0.0.0", "99.0.0"):
+                automation_version = invalid
+                with self.subTest(automation_version=invalid), self.assertRaisesRegex(
+                        ValueError, "tag and release automation version differ"):
+                    releases.source_spec("v" + lock["dataset_version"])
+            automation_version = lock["dataset_version"]
             definitions["dataset_version"] = "99.0.0"
             with self.assertRaisesRegex(ValueError, "tag and dataset version differ"):
                 releases.source_spec("v" + lock["dataset_version"])

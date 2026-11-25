@@ -9,13 +9,24 @@ on this workflow, registry or data release. This does not seed a running store.
 
 ## Producer trust and setup
 
-- Only explicit `workflow_dispatch` on this repository's `main` is accepted.
-  There are no PR, tag-push or release-event publication triggers. PR verification
-  remains read-only; its small synthetic fixture tests require no registry,
-  signing identity, Go build or service.
+- Release Please runs on pushes to `main`, opens/updates a Conventional Commit
+  version PR, and creates a draft GitHub Release with its version tag when that
+  PR merges. The same workflow automatically dispatches `release.yml` on `main`
+  for the new tag. Manual dispatch remains available for recovery. There are no
+  tag-push or release-event publication triggers to duplicate the automatic run.
+  PR verification remains read-only and Python-only; its small synthetic fixture
+  tests require no registry, signing identity, Go build or service.
+- Install the release GitHub App on `gitstore-dev/data` with Contents, Issues,
+  and Pull requests read/write permissions, as in GitStore and the CLI. Set
+  repository variable `RELEASE_PLEASE_APP_CLIENT_ID` and secret
+  `RELEASE_PLEASE_APP_PRIVATE_KEY`. Without the variable, proposal automation is
+  skipped. The repository-scoped ephemeral App token lets generated PRs run CI;
+  no PAT is used. The proposal job's separate `GITHUB_TOKEN` has `actions: write`
+  solely to dispatch the publisher. Neither token becomes a GitStore credential.
 - The input is an **existing** `v<dataset-version>` tag, for example `v0.1.0`.
   It must resolve to a commit reachable from reviewed `origin/main`, and match
-  both dataset definitions and the selection lock. Annotated tags are supported.
+  dataset definitions, the selection lock, `version.txt`, and the Release Please
+  manifest. Annotated tags are supported.
   The tag is checked against GitHub again before and after publication.
 - Configure a `data-release` environment restricted to `main`. Configure trusted
   maintainer approval according to the organization's release policy. Protect
@@ -52,16 +63,39 @@ signed release is reused verbatim and does not depend on a later builder profile
 
 ## Create a release
 
-1. Merge/review data changes and update `datasets/definitions.json` and
-   `datasets/selections.lock.json` for the new dataset version. Keep the Shopify
-   taxonomy version distinct. Merge the producer workflow before its first use.
-2. Create/push the matching version tag on the reviewed commit using the normal
-   maintainer Git workflow. The producer neither creates nor updates Git tags.
-3. Dispatch from `main`, for example:
+1. Merge reviewed changes using Conventional Commits. Release Please maintains
+   the version PR, changelog, `version.txt`, `.release-please-manifest.json`, and
+   the dataset version in both definitions and selection lock. Do not manually
+   bump these fields or change the separate Shopify taxonomy version.
+2. Review and merge the Release Please PR. It creates the matching tag and draft
+   release, then automatically dispatches publication from `main`. Any configured
+   `data-release` environment approval still applies.
+3. Check the publication run and the completed GitHub Release. To resume a failed
+   dispatch or publication, dispatch the **same existing tag** from `main`:
 
    ```sh
    gh workflow run release.yml --repo gitstore-dev/data --ref main -f tag=v0.1.0
    ```
+
+The initial `0.0.0` manifest and `version.txt` are an **unreleased baseline**, not
+an existing release. `initial-version: 0.1.0` proposes the already authored dataset
+version; the bootstrap SHA bounds initial history. Subsequent feature commits
+advance `0.x` minor versions normally. Validation allows that explicit bootstrap
+state, but tagged publication requires all version fields to match exactly.
+Release Please creates the tag even for a draft (`force-tag-creation: true`);
+the publisher finishes that draft only after signed assets and registry readback
+succeed. Recovery can reuse the same draft and tag without replacing assets.
+
+To preview the pinned Release Please engine locally without GitHub calls or
+publication (optional; not a dependency of normal verification):
+
+```sh
+npm install --prefix /tmp/data-release-please --ignore-scripts --no-audit --no-fund release-please@17.6.0
+GITSTORE_RELEASE_PLEASE_MODULE=/tmp/data-release-please/node_modules/release-please node tests/release_please_fixture.cjs
+```
+
+The preview checks the initial `0.1.0` and subsequent `0.2.0` feature proposals,
+both JSON version updates, unchanged selection content, and draft/tag settings.
 
 The controller stays at the dispatch's main revision. It checks out a clean
 temporary worktree at the tagged data revision, runs its unit tests, validates

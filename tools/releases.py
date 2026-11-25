@@ -49,6 +49,9 @@ def source_spec(tag):
     lock_bytes = git("show", commit + ":datasets/selections.lock.json")
     lock = json.loads(lock_bytes)
     require(definitions["dataset_version"] == lock["dataset_version"] == tag[1:], "tag and dataset version differ")
+    version = git("show", commit + ":version.txt").decode().strip()
+    manifest = json.loads(git("show", commit + ":.release-please-manifest.json"))
+    require(version == manifest["."] == tag[1:], "tag and release automation version differ")
     require(set(definitions["selections"]) == set(lock["selections"]) == {"starter", "full"}, "release requires starter and full")
     require(lock["source"] == json.loads(git("show", commit + ":source.lock.json")), "source and selection locks differ")
     require(all(definitions["selections"][name][key] == lock["selections"][name][key]

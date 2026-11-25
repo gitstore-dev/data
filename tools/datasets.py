@@ -34,6 +34,21 @@ def read_json(path):
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
 
+def verify_release_versions():
+    """Allow the unreleased bootstrap; release-time checks require exact tag equality."""
+    version = (ROOT / "version.txt").read_text().strip()
+    manifest = read_json(".release-please-manifest.json")["."]
+    dataset = read_json("datasets/definitions.json")["dataset_version"]
+    lock = read_json("datasets/selections.lock.json")["dataset_version"]
+    require(version == manifest, "Release Please manifest and version.txt differ")
+    require(dataset == lock, "dataset definitions and lock versions differ")
+    if version == "0.0.0":
+        initial = read_json("release-please-config.json")["packages"]["."]["initial-version"]
+        require(dataset == initial, "bootstrap dataset differs from initial release version")
+    else:
+        require(version == dataset, "release automation and dataset versions differ")
+
+
 def selected_ids(definition, categories):
     if definition.get("all_source_ids") is True:
         require("ids_file" not in definition, "selection has two membership rules")
@@ -162,6 +177,7 @@ def main():
     exporter.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
+        verify_release_versions()
         taxonomy.validate()
         current, inventories = snapshot()
         if args.command == "lock":

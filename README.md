@@ -141,8 +141,9 @@ These maintainer commands use the existing Python requirements and standard
 library. Packages contain no tools, runtime, third-party executables or media.
 The [release workflow](docs/releases.md) builds at release time and publishes
 versioned GHCR artifacts plus matching GitHub Release archives/checksums and
-producer provenance. It runs only by an explicit dispatch for a reviewed tag on
-`main`; tests/builds do not publish. Resumable `gs seed` remains CLI work. Core
+producer provenance. Release Please maintains version PRs and automatically
+starts publication from `main` after creating a release tag and draft. Manual
+dispatch supports recovery; tests/builds do not publish. Resumable `gs seed` remains CLI work. Core
 GitStore binaries/images receive no data, third-party binaries or dependencies.
 
 ## Content and provenance
