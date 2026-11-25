@@ -152,6 +152,12 @@ editorial or membership change:
 .venv/bin/python tools/check_parser.py --gitstore /path/to/GitStore
 ```
 
+Pull requests and pushes to `main` run one CI verification job: unit tests,
+canonical schema/hierarchy/editorial/link validation, and selection-lock checks.
+It uses committed inputs only, with no upstream downloads, full exports,
+GitStore builds, live services or publication. The pinned production-parser
+check remains a maintainer check.
+
 The parser check needs Git, Go (including the pinned GitStore module's toolchain)
 and its Go modules available. It archives the revision in
 [datasets/compatibility.json](datasets/compatibility.json) into a temporary
