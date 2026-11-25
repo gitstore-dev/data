@@ -1,0 +1,11 @@
+{
+  "resource_api_version": "catalog.gitstore.dev/v1beta1",
+  "resource_kind": "CategoryTaxonomy",
+  "required_server_features": ["repository-scoped-namespace-inference"],
+  "gitstore_repository": "https://github.com/gitstore-dev/GitStore.git",
+  "gitstore_revision": "e95ac03183cb3c4e78bdfbe4bb3f431bf6f4e961",
+  "parser_package": "github.com/gitstore-dev/gitstore/api/internal/validate",
+  "upstream_schema_path": "schemas/catalog.gitstore.dev/v1beta1/category.schema.json",
+  "vendored_schema_path": "schemas/category.schema.json",
+  "schema_sha256": "a7a0aa7611abcfd00c55dd7aad64bf7d70e3522b24ed6c08b0ccb9c4aef74740"
+}

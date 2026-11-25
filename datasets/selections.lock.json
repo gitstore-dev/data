@@ -1,0 +1,152 @@
+{
+  "authoring_inputs": {
+    "editorial/descriptions.en/aa.jsonl": "1b8437ad6749d20e7f25647ffc6d56c1d9b6523a20c128ca332731dc2b167af1",
+    "editorial/descriptions.en/ae.jsonl": "6fe8ac2eaf4634bb45d6046278e075d91d6039da19a3569ff4c1effff24bd580",
+    "editorial/descriptions.en/ap.jsonl": "db04c1d3414b0b21a5dee1624b12502f65365c3dbd24388b2cdff713f624b7e2",
+    "editorial/descriptions.en/bi.jsonl": "1622b8b3185c837c1bf9bfed80974f1fe2688aee9d3f1b7a3f4a379ea5c742ac",
+    "editorial/descriptions.en/bt.jsonl": "db2ec4d67c879f791c2e4371be72fac1a82254418bfe0ce4f1f3a8d665457042",
+    "editorial/descriptions.en/bu.jsonl": "b94cd0fd8a80430595e71e79c5bdc432ebfc9b55316f47434c93a344ff27e2f4",
+    "editorial/descriptions.en/co.jsonl": "00fc97b810c4b68c2f0d86efe87b56da53c5cb2de3e16681d9bced00e162946b",
+    "editorial/descriptions.en/el.jsonl": "12b2269a407dc872e239e9c59524fb2191fb2ec5460dda060add993cc7d5a364",
+    "editorial/descriptions.en/fb.jsonl": "079648afe1d1b617617c78056f0292b2f36bc4accafd87e65231d46f82080141",
+    "editorial/descriptions.en/fr.jsonl": "245f7649c1304ab517c8261677ba3bacffa62025704908b9d3b88793cb6e9bd8",
+    "editorial/descriptions.en/gc.jsonl": "f024f424c968a5f48da3cf112c58b5c9e9e1fcd0360c850e9016afd01e962968",
+    "editorial/descriptions.en/ha.jsonl": "9686769216a80bb30a3be4061d9d1a94cc26fc6d3ebe023f1f117372882e4280",
+    "editorial/descriptions.en/hb.jsonl": "2a457e241050aaff8a2b0b07fa2c4b8daa894f89610a626733a19be3dcf21f96",
+    "editorial/descriptions.en/hg.jsonl": "6ccd954961b8e2d3a995b0cb81a29396a7c4793332929548849dbee4b9eeccfe",
+    "editorial/descriptions.en/lb.jsonl": "4e1b1663371057592e5bbdc7218720dc78cce206b02e26a05cfac384fdc80c15",
+    "editorial/descriptions.en/ma.jsonl": "7981d07666ebd68cc584171b436c3c8edfe606bf3dc81e5edca74362771fc7be",
+    "editorial/descriptions.en/me.jsonl": "6d27b39a40ebe59b02c6dd467e74f279610b8d0e9b8e79132189b41e3a0a8745",
+    "editorial/descriptions.en/na.jsonl": "d057da8ad24917f4f7d3136146415870a1e4ddb5900cc71fa5a281dbee7e4bb0",
+    "editorial/descriptions.en/os.jsonl": "63ade0a5628c0aa08df8aad2c2d5c8ed19da2a87e4737ad370e95be7fddf8b74",
+    "editorial/descriptions.en/pa.jsonl": "e057b81ffb315008ab5287871104ef1c68c0f2e946362117d1d24c9c6a5b96d7",
+    "editorial/descriptions.en/rc.jsonl": "a06e8949e8e110d9c6e5bec934381d8dd07855f3ef6a38d6a10d9a316fce8799",
+    "editorial/descriptions.en/se.jsonl": "bd634a6a21921a036469715f2593d0b442d6cfd837401eac54fe845842f49845",
+    "editorial/descriptions.en/sg.jsonl": "22d99015f4e321c858bca7271a923443de590cdec767e0ed8c647ec018924e5d",
+    "editorial/descriptions.en/so.jsonl": "d679424a7995f15f20f9bc6e4497350358a367441e8f4c47748a68cac5f10fef",
+    "editorial/descriptions.en/tg.jsonl": "a5daa74a5740ae4f31ec1775d99a03ccf59a5a34c2a344feeb5fcff4a84868f1",
+    "editorial/descriptions.en/vp.jsonl": "cf4671fb95fc2728002e25defbc8691bbffbcbd0caee09f86416515b517c363c",
+    "source.lock.json": "3bb9024b264fb662fba7a307163b3eda4ea23558f2d567a0cb5272a1c8ffa9f6"
+  },
+  "compatibility": {
+    "gitstore_repository": "https://github.com/gitstore-dev/GitStore.git",
+    "gitstore_revision": "e95ac03183cb3c4e78bdfbe4bb3f431bf6f4e961",
+    "parser_package": "github.com/gitstore-dev/gitstore/api/internal/validate",
+    "required_server_features": [
+      "repository-scoped-namespace-inference"
+    ],
+    "resource_api_version": "catalog.gitstore.dev/v1beta1",
+    "resource_kind": "CategoryTaxonomy",
+    "schema_sha256": "a7a0aa7611abcfd00c55dd7aad64bf7d70e3522b24ed6c08b0ccb9c4aef74740",
+    "upstream_schema_path": "schemas/catalog.gitstore.dev/v1beta1/category.schema.json",
+    "vendored_schema_path": "schemas/category.schema.json"
+  },
+  "dataset_version": "0.1.0",
+  "default_selection": "starter",
+  "dependency_closure": "all ancestors and local navigation targets included",
+  "format_version": 1,
+  "licenses": [
+    {
+      "bytes": 1087,
+      "path": "LICENSE",
+      "sha256": "9bf66328e0cc5648bd8d102c14415fd124682ff7b91fbea0cfd4d2b2249324de"
+    },
+    {
+      "bytes": 1046,
+      "path": "LICENSE-SHOPIFY",
+      "sha256": "6a2261660cc6cb406ed6ef788347d8cb35e939f4537def9e699abf88ed025273"
+    }
+  ],
+  "ordering": "ancestor depth ascending, then Shopify category ID in ASCII order",
+  "selections": {
+    "full": {
+      "ids_sha256": "41b8cb30c4a7be5f3d0cc23594ff5ed6f0de3b3645c67c1c58e8b5d048c69189",
+      "inventory_sha256": "aeb2aff6c056691789aaed996755c7c3521eace9615c5241bd92f443c8e9b429",
+      "manifest_bytes": 177054512,
+      "rationale": "Every English category in the pinned Shopify 2026-11 taxonomy; explicit opt-in for reference catalogues.",
+      "resources": 64292,
+      "roots": 26,
+      "verticals": {
+        "aa": 2544,
+        "ae": 5915,
+        "ap": 1648,
+        "bi": 1970,
+        "bt": 700,
+        "bu": 1,
+        "co": 1268,
+        "el": 6212,
+        "fb": 4311,
+        "fr": 1553,
+        "gc": 3,
+        "ha": 5788,
+        "hb": 3569,
+        "hg": 9617,
+        "lb": 129,
+        "ma": 232,
+        "me": 134,
+        "na": 1,
+        "os": 842,
+        "pa": 8,
+        "rc": 52,
+        "se": 293,
+        "sg": 10817,
+        "so": 306,
+        "tg": 2519,
+        "vp": 3860
+      }
+    },
+    "starter": {
+      "ids_sha256": "345357eb6e2019131a0ba84b3e8465e199e552c4a0fd51796e9facf56aa3a688",
+      "inventory_sha256": "c6d46a0303af8539f35658c59873870aefe817b06d2c4d5287de475652ddac75",
+      "manifest_bytes": 632868,
+      "rationale": "Complete Gift Cards (3), Luggage & Bags (129), and Media (134) verticals offer gift, bag, book and recorded-content classifications in a small retail demo. Complete verticals preserve canonical ancestor and direct-child navigation without rewriting descriptions. Membership is explicit, never sampled.",
+      "resources": 266,
+      "roots": 3,
+      "verticals": {
+        "gc": 3,
+        "lb": 129,
+        "me": 134
+      }
+    }
+  },
+  "source": {
+    "asset_sha256": "bd4de170a7337dc25439c14ab274ec424f68a49ff6114f79dad3f792d23ea959",
+    "asset_url": "https://github.com/Shopify/product-taxonomy/releases/download/v2026-11/categories.en.json.gz",
+    "categories": 64292,
+    "locale": "en",
+    "normalization": "category identity, hierarchy and attributes only; return reasons excluded",
+    "normalization_order": "vertical prefix ascending; upstream category order within each vertical",
+    "normalized_sha256": "1c2a320861af7d4b8f576f5bb8635c02c7d3298319136721ea2e1e583f502353",
+    "release_url": "https://github.com/Shopify/product-taxonomy/releases/tag/v2026-11",
+    "source_shards": {
+      "aa.jsonl": "9893d9cf3f874c8eccaeebe7bb2e949d048bba3b0b925226cbdf349cbc00ac2e",
+      "ae.jsonl": "752dae78d80ef8d3192e1f8c7101928969e13ce967c87c77f3ad58f22831321a",
+      "ap.jsonl": "87675dea121fb94d036ca613027200ae6bd33e0dc1bcbbc212c9cc6e778f6646",
+      "bi.jsonl": "8d0a22dceb7758bae500ba5e038d7932fdbb88bf4964e40f3184a2a031192a25",
+      "bt.jsonl": "175db5f64f17c2da6526bdf2bf09e001c745893ac0826d31bcdd3f2763aae75b",
+      "bu.jsonl": "64a91dc689c13565666b1e37870d15726edd9096c9a461d2d3b37c2b589fe170",
+      "co.jsonl": "fb311006e9992efabd66cff262800ee6d4e12f809f03c97276845da49c46f080",
+      "el.jsonl": "4eaab0e63ff65f36a69ea4bf43c9f3fd745c26cd5f7553a6d4a07d555b2728a7",
+      "fb.jsonl": "97321910241ce966edaafa3139349a9ad0037abf063bb7d3b5b2e2cfd39aaaa7",
+      "fr.jsonl": "a81c03a6c819abbaff321d61e6878a0be366e7a8fd9ae20518a80fbe9cf1d4b1",
+      "gc.jsonl": "b7513f4b276bf8b5f1e2979f1f1a7baa9d16e30a6ebbd222bbb683bcf800df16",
+      "ha.jsonl": "05f0b32ca888e3c152254261059dd9a994d3292ef0668e962afeb6437c8f0133",
+      "hb.jsonl": "e11f07bb70ca0175273d4ea5508df107fefda6fdbd164119cc9771cf4f84ec8f",
+      "hg.jsonl": "a48b9aa7b086e13cc621b6b6c3a9c5c7a3a27e33e0f5a7e43afcda406e2be206",
+      "lb.jsonl": "0e5ae57171331a51ae131c1f233429c119429dec0bb1c581f4bfd3fd384c6a35",
+      "ma.jsonl": "8bb92b4939e659185adfcdf7e4c5746c66c2ece336a614d9a0218913c4c71291",
+      "me.jsonl": "76e2216a51a673c1d6133842530c69a0f952a06c3a70c1865510ff3c35d24ca6",
+      "na.jsonl": "2e078ae3972e3b953177336531b05826955cdbac305b223a69eefc1f9a8c9589",
+      "os.jsonl": "fce1774be83370518bba13ff971b507f5b21b0df970c69e0ade2c072bf9d61d2",
+      "pa.jsonl": "d0f574498bae5f1e1489da1cdb505cc1f85daa6b4db2b0dd5873cc8bca55e771",
+      "rc.jsonl": "f3d853c940bc29c9a91248ba62eecba88126399c48dea6268e2c5f37ffedebd8",
+      "se.jsonl": "bfb004facf252737e2d612bf10bdba9d2d68a8fed31f9814bba11d85be16503e",
+      "sg.jsonl": "d168eca026a09095f7e6d137c912329e9e57e9ccb8fcf551ced4cf1f655b9a6e",
+      "so.jsonl": "5c9c9392b50eb3a1ea4afffe305e41fb7a3d0b489221fd7f065fb73c4a057917",
+      "tg.jsonl": "a4cbd299104899ade50d62b6e7ace9704c14b59c2d71b10e2d1acb38b5559d7e",
+      "vp.jsonl": "d4784f0e9d529e12a537fd8b5d33c766c4923c0563cbea10cca22d849a6940c6"
+    },
+    "version": "2026-11",
+    "verticals": 26
+  }
+}
