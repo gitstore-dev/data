@@ -61,6 +61,42 @@ namespaces and unavailable repository scope. This is an in-process memdb
 acceptance fixture; full-taxonomy deployed ingestion and Scylla qualification
 have not been performed.
 
+## Bundle checks
+
+The seed/v1 tests generate the small CLI fixture from a committed text definition
+and compare committed digest vectors, rather than store binary archives or build
+full bundles in CI. They cover deterministic fixture generation, separate
+archive/OCI digest verification, exact extraction, target-requirement preflight,
+malformed and unsafe archive entries, expansion/count limits, tampering,
+namespace/media omission, hierarchy/navigation and output preservation. See
+[the bundle contract](docs/seed-bundle-v1.md) for the limits and fixture recipe.
+
+Before a package release, build both selections twice from the same committed
+inputs into fresh directories, compare all output bytes, verify each layout,
+and extract/compare every category with the canonical files. Repeat-build
+identity includes source commit and builder/codec versions. A small fixture
+guards compression drift across local and CI environments; release automation
+should pin its builder environment. These package checks do not perform live
+GitStore ingestion or qualify production capacity.
+
+Initial package-format validation on 2026-11-25 used Python 3.14.6, zlib 1.2.12
+and the canonical selection inputs. The table records those test builds;
+compressed sizes also depend on the declared source-commit value:
+
+| Selection | Categories | Payload files | Expanded bytes | Archive bytes |
+| --- | ---: | ---: | ---: | ---: |
+| Starter | 266 | 270 | 763,031 | 65,779 |
+| Full | 64,292 | 64,296 | 207,441,883 | 13,741,399 |
+
+All eight OCI/offline output files matched across two builds of each selection.
+Layout and archive verification passed, and extraction preserved every category,
+both licenses and the original selection metadata exactly. ORAS 1.4.0 resolved
+the fixture manifest and pulled identical fixture/full payloads from local OCI
+layouts without a registry. All 36 unit tests passed. The ORAS client was a
+temporary maintainer tool, not a repository, CI or service dependency. Canonical
+inputs, schema/selection locks and the single CI workflow remained unchanged.
+No registry publication or live GitStore ingestion was performed.
+
 ## Editorial sample review
 
 Reviewed roots, an intermediate node where available, and a terminal node

@@ -90,6 +90,58 @@ Datasets and any packaging tools remain separate from GitStore API,
 controller-manager and Git-service binaries/images. OCI packaging/publication
 and `gs seed` execution are separate work items.
 
+## Data-only OCI bundles
+
+The [seed/v1 contract](docs/seed-bundle-v1.md) packages either selection as an
+OCI image layout plus a standalone offline archive. It is architecture-independent
+data. The same `seed.tar.gz` bytes are the OCI layer and offline download; the
+archive checksum and OCI manifest digest identify different objects.
+
+Build from committed canonical, selection and builder inputs:
+
+```sh
+.venv/bin/python tools/bundles.py build --output dist/bundle-starter
+.venv/bin/python tools/bundles.py build --selection full --output dist/bundle-full
+# Verify all OCI descriptors, payload inventory and category semantics offline.
+.venv/bin/python tools/bundles.py verify --package dist/bundle-starter
+```
+
+Each output includes `oci-layout`, `index.json`, content-addressed blobs,
+`manifest.json`, `seed.tar.gz` and `checksums.json`. The builder prints separate
+archive/OCI descriptors. The payload adds `bundle.json` to the exact selection
+export, recording the source commit, dataset/selection identity, Shopify source,
+compatibility requirements, provenance, ordered inventories and exact expanded
+size/file counts. Outputs must be fresh; repository outputs go under `dist/`.
+
+For offline verification, supply an independently approved **archive** digest
+from the release channel. To inspect verified files, optionally extract to a
+fresh directory:
+
+```sh
+.venv/bin/python tools/bundles.py verify \
+  --archive dist/bundle-starter/seed.tar.gz \
+  --archive-digest sha256:<archive-checksum> --extract-to dist/unpacked
+```
+
+Layout verification can instead pin `--oci-digest sha256:<manifest-checksum>`.
+Digest verification provides integrity, not publisher authentication. Neither
+source URLs nor a self-consistent layout establish trust. Publication and
+signing/provenance policy belong to the release workflow in data #3.
+
+Importers must check the target's required capabilities and resource APIs
+before writes. For a caller that has independently established target support,
+the verifier can check explicitly supplied sets using
+`--target-capability repository-scoped-namespace-inference` and
+`--target-api catalog.gitstore.dev/v1beta1`. Omitting both checks content only;
+the tool never connects to a target or seeds data. Unknown formats, unsafe
+entries, excessive expansion, tampering, missing ancestors and broken links
+fail verification before extraction. See the contract for bounds and fixtures.
+
+These maintainer commands use the existing Python requirements and standard
+library. Packages contain no tools, runtime, third-party executables or media.
+OCI publication and resumable `gs seed` remain separate work; core GitStore
+binaries/images receive no data or dependencies.
+
 ## Content and provenance
 
 Each file has complete author-writable frontmatter, two category-specific
@@ -154,7 +206,10 @@ editorial or membership change:
 
 Pull requests and pushes to `main` run one CI verification job: unit tests,
 canonical schema/hierarchy/editorial/link validation, and selection-lock checks.
-It uses committed inputs only, with no upstream downloads, full exports,
+It generates a tiny OCI/archive fixture in temporary directories and checks
+committed digest vectors, conformance and tampering cases. Only text fixture
+definitions/vectors are stored in Git. It uses committed inputs only, with no
+upstream downloads, full exports,
 GitStore builds, live services or publication. The pinned production-parser
 check remains a maintainer check.
 
@@ -193,6 +248,8 @@ Review coverage, acceptance limits and sample links are recorded in [QUALITY.md]
 There are no media resources, references, files or LFS objects in this release.
 Future files under `media/**` use Git LFS via committed attributes.
 Resource Markdown, source records and tooling remain ordinary Git text.
+Generated seed archives and OCI blobs are built during verification or release,
+outside Git and LFS; repository build output belongs under ignored `dist/`.
 
 ```sh
 git check-attr filter diff merge text -- media/example.png
