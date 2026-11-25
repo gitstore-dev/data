@@ -1,0 +1,7 @@
+{
+  "dataset_version": "0.0.0-fixture",
+  "ids": ["gc", "gc-1", "gc-2"],
+  "rationale": "Conformance fixture only: the complete three-category Gift Cards vertical.",
+  "selection": "fixture-gift-cards",
+  "source_commit": "04df0a756d4ec7d2ad359ff9cc526ef26d3c018e"
+}

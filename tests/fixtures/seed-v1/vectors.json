@@ -1,0 +1,31 @@
+{
+  "empty_config": {
+    "digest": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "mediaType": "application/vnd.oci.empty.v1+json",
+    "size": 2
+  },
+  "expanded_bytes": 19599,
+  "file_count": 7,
+  "identities": {
+    "archive": {
+      "digest": "sha256:787926d556c500ac2abc6da1c556ff44333802c90e53038c2e023d4b5d32350e",
+      "size": 5344
+    },
+    "oci_manifest": {
+      "digest": "sha256:cd73db1e947a3d78ad44f80e57dbf676badbf484f81ddbe8ce441d1d8acd8c4e",
+      "mediaType": "application/vnd.oci.image.manifest.v1+json",
+      "size": 958
+    }
+  },
+  "package_format": "gitstore.seed/v1",
+  "requirements": {
+    "capabilities": [
+      "repository-scoped-namespace-inference"
+    ],
+    "resource_apis": [
+      "catalog.gitstore.dev/v1beta1"
+    ]
+  },
+  "resources": 3,
+  "source_commit": "04df0a756d4ec7d2ad359ff9cc526ef26d3c018e"
+}

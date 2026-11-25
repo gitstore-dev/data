@@ -124,6 +124,13 @@ def verify_lock(current):
             "selection lock differs; review changes then run tools/datasets.py lock")
 
 
+def export_metadata(selection, current, records):
+    metadata = {key: value for key, value in current.items()
+                if key not in {"selections", "authoring_inputs", "default_selection"}}
+    metadata.update({"selection": selection, **current["selections"][selection], "inventory": records})
+    return metadata
+
+
 def export(output, selection, current, records):
     output = output.resolve()
     require(not output.exists(), f"output already exists: {output}")
@@ -140,9 +147,7 @@ def export(output, selection, current, records):
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, target)
             require(sha256(target.read_bytes()) == record["sha256"], f"file changed during export: {source}")
-        metadata = {key: value for key, value in current.items()
-                    if key not in {"selections", "authoring_inputs", "default_selection"}}
-        metadata.update({"selection": selection, **current["selections"][selection], "inventory": records})
+        metadata = export_metadata(selection, current, records)
         (staging / "dataset.json").write_bytes(encoded(metadata))
         staging.rename(output)
 
