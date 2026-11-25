@@ -1,0 +1,8 @@
+{"attributes":[],"full_name":"Product Add-Ons","gid":"gid://shopify/TaxonomyCategory/pa","id":"pa","parent":null,"title":"Product Add-Ons","vertical":"pa"}
+{"attributes":[],"full_name":"Product Add-Ons > Extended Warranties","gid":"gid://shopify/TaxonomyCategory/pa-1","id":"pa-1","parent":"pa","title":"Extended Warranties","vertical":"pa"}
+{"attributes":[],"full_name":"Product Add-Ons > Installation Services","gid":"gid://shopify/TaxonomyCategory/pa-2","id":"pa-2","parent":"pa","title":"Installation Services","vertical":"pa"}
+{"attributes":[],"full_name":"Product Add-Ons > Maintenance Plans","gid":"gid://shopify/TaxonomyCategory/pa-3","id":"pa-3","parent":"pa","title":"Maintenance Plans","vertical":"pa"}
+{"attributes":[{"description":"Defines the primary color or pattern, such as blue or striped","name":"Color"}],"full_name":"Product Add-Ons > Product Customization","gid":"gid://shopify/TaxonomyCategory/pa-4","id":"pa-4","parent":"pa","title":"Product Customization","vertical":"pa"}
+{"attributes":[],"full_name":"Product Add-Ons > Product Upgrades","gid":"gid://shopify/TaxonomyCategory/pa-5","id":"pa-5","parent":"pa","title":"Product Upgrades","vertical":"pa"}
+{"attributes":[],"full_name":"Product Add-Ons > Shipping Insurance","gid":"gid://shopify/TaxonomyCategory/pa-6","id":"pa-6","parent":"pa","title":"Shipping Insurance","vertical":"pa"}
+{"attributes":[],"full_name":"Product Add-Ons > Subscription Services","gid":"gid://shopify/TaxonomyCategory/pa-7","id":"pa-7","parent":"pa","title":"Subscription Services","vertical":"pa"}

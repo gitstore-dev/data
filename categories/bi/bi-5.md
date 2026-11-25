@@ -1,0 +1,30 @@
+---
+apiVersion: catalog.gitstore.dev/v1beta1
+kind: CategoryTaxonomy
+metadata: {"annotations":{"gitstore.dev/description-source":"GitStore-authored; generated from Shopify classification context","taxonomy.shopify.com/full-name":"Business & Industrial > Dentistry","taxonomy.shopify.com/id":"gid://shopify/TaxonomyCategory/bi-5","taxonomy.shopify.com/version":"2026-11"},"name":"shopify-bi-5"}
+spec: {"parentRef":{"apiVersion":"catalog.gitstore.dev/v1beta1","kind":"CategoryTaxonomy","name":"shopify-bi"},"title":"Dentistry"}
+---
+
+# Dentistry
+
+The “Dentistry” category belongs to Business & Industrial. It groups items under the official Shopify classification “Business & Industrial > Dentistry”, keeping this product family distinct within its parent, Business & Industrial. Its immediate branches include Dental Cement, Dental Tools, Prophy Paste.
+
+When describing products in Dentistry, useful Shopify classification details include Color: Defines the primary color or pattern, such as blue or striped; Material: Defines a product's primary material, such as cotton or wool; Pattern: Describes the design or motif of a product, such as floral or striped. These are descriptive comparison points rather than required GitStore category fields; retain the product’s actual characteristics when choosing a category. Where an immediate branch describes the product more precisely, follow that branch and continue to the most appropriate specific category.
+
+## Classification
+
+**Path:** [Business & Industrial](bi.md) → Dentistry
+
+**Shopify ID:** `gid://shopify/TaxonomyCategory/bi-5`
+
+## Direct subcategories
+
+- [Dental Cement](bi-5-1.md)
+- [Dental Tools](bi-5-2.md)
+- [Prophy Paste](bi-5-3.md)
+
+## Source
+
+Official label and hierarchy: [Shopify Standard Product Taxonomy 2026-11](https://github.com/Shopify/product-taxonomy/releases/tag/v2026-11).
+
+Explanatory paragraphs are GitStore-authored demo copy generated from the category’s classification context and attributes, not official Shopify descriptions. Shopify taxonomy data is used under the MIT license; see [LICENSE-SHOPIFY](../../LICENSE-SHOPIFY).
